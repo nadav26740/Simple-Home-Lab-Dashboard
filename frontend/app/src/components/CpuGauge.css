@@ -1,0 +1,125 @@
+.cpu-gauge-card {
+  background: linear-gradient(180deg, #131b26 0%, #192430 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 22px;
+  padding: 1.5rem;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.25);
+}
+
+.cpu-gauge-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1.3rem;
+}
+
+.cpu-gauge-title {
+  display: block;
+  color: #f8fafc;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.cpu-gauge-subtitle {
+  display: block;
+  color: #9fb0c7;
+  margin-top: 0.25rem;
+  font-size: 0.92rem;
+}
+
+.cpu-gauge-chip {
+  background: rgba(255, 255, 255, 0.06);
+  color: #d8e1eb;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.cpu-gauge-body {
+  display: grid;
+  grid-template-columns: minmax(180px, 240px) 1fr;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.cpu-gauge-svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.gauge-bg,
+.gauge-fill {
+  fill: none;
+  transform: rotate(-140deg);
+  transform-origin: 100px 100px;
+}
+
+.gauge-bg {
+  stroke: rgba(255, 255, 255, 0.08);
+  stroke-width: 16;
+}
+
+.gauge-fill {
+  stroke: #5b9cff;
+  stroke-width: 16;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.6s ease;
+}
+
+.gauge-value {
+  font-size: 2.4rem;
+  fill: #f8fafc;
+  font-weight: 700;
+  text-anchor: middle;
+}
+
+.gauge-label {
+  font-size: 0.85rem;
+  fill: #9fb0c7;
+  text-anchor: middle;
+}
+
+.cpu-gauge-info {
+  display: grid;
+  gap: 1rem;
+}
+
+.cpu-gauge-info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.95rem 1.1rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.cpu-gauge-info-item span {
+  color: #9fb0c7;
+  font-size: 0.9rem;
+}
+
+.cpu-gauge-info-item strong {
+  color: #f8fafc;
+  font-size: 1rem;
+}
+
+.cpu-gauge-error {
+  margin-top: 1.25rem;
+  padding: 0.9rem 1rem;
+  background: rgba(255, 73, 99, 0.12);
+  color: #ffb3c5;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 73, 99, 0.18);
+  font-size: 0.95rem;
+}
+
+@media (max-width: 720px) {
+  .cpu-gauge-body {
+    grid-template-columns: 1fr;
+  }
+}
