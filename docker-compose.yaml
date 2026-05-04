@@ -1,0 +1,17 @@
+services:
+  # backend:
+  #   build:
+  #     context: ./backend/app
+  #   container_name: dasboard-backend
+  #   ports:
+  #     - "3000:3000"
+
+  frontend:
+    build:
+      context: ./frontend/app
+      dockerfile: Dockerfile.prod
+    container_name: dasboard-frontend
+    ports:
+      - "8000:8000"
+    # depends_on:
+    #   - backend
