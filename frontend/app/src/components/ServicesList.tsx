@@ -1,11 +1,11 @@
-import './AdminList.css';
+import './ServicesList.css';
 import { useState, useMemo } from 'react';
 import { useServices } from '@/api/hooks';
 
 type SortField = 'name' | 'status' | 'cpu' | 'memory' | 'enabled';
 type SortOrder = 'asc' | 'desc';
 
-export default function AdminList() {
+export default function ServicesList({ onOpenPopup }: any) {
     const { data: services, loading, error } = useServices(10000);
     const [sortField, setSortField] = useState<SortField>('name');
     const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
@@ -90,9 +90,9 @@ export default function AdminList() {
                                 <td className="service-cpu">{service.usage.cpu.toFixed(2)}%</td>
                                 <td className="service-memory">{service.usage.memory.toFixed(2)}%</td>
                                 <td className="service-enabled">
-                                    <span className={`enabled-badge ${service.enabled ? 'enabled' : 'disabled'}`}>
-                                        {service.enabled ? '✓' : '✗'}
-                                    </span>
+                                    <button className={`enabled-badge ${service.enabled ? 'enabled' : 'disabled'}`} onClick={() => onOpenPopup(service.name)}>
+                                        Info
+                                    </button>
                                 </td>
                             </tr>
                         ))}

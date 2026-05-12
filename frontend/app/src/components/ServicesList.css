@@ -139,23 +139,25 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
-  font-weight: bold;
-  font-size: 1.1rem;
+  width: fit-content;
+  height: 2rem;  
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
 }
 
 .enabled-badge.enabled {
   background-color: rgba(72, 187, 120, 0.24);
   color: #8bf09f;
-  border: 2px solid rgba(72, 187, 120, 0.4);
+  border: 1px solid rgba(72, 187, 120, 0.4);
 }
 
 .enabled-badge.disabled {
   background-color: rgba(255, 97, 111, 0.18);
   color: #ffb1af;
-  border: 2px solid rgba(255, 97, 111, 0.35);
+  border: 1px solid rgba(255, 97, 111, 0.35);
 }
 
 .admin-list-loading,

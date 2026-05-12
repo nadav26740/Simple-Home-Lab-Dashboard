@@ -2,8 +2,10 @@ import subprocess
 import psutil
 from typing import List, Dict
 from fastapi import HTTPException
-from app.schemes import ServiceInfo, ServiceUsageInfo
+from app.schemes import ServiceInfo, ServiceUsageInfo, ServiceFullInfo
 
+def run_cmd(cmd: list) -> str:
+    return subprocess.check_output(cmd, text=True).strip()
 
 def _build_process_map() -> Dict[str, ServiceUsageInfo]:
     """Build a map of service names to their usage info in a single pass"""
@@ -135,3 +137,50 @@ def disable_service(name: str):
         return {"message": f"Disabled {name}"}
     except subprocess.CalledProcessError:
         raise HTTPException(status_code=500, detail=f"Failed to disable {name}")
+    
+
+def get_last_logs(service_name: str, lines: int = 20) -> List[str]:
+    try:
+        output = run_cmd([
+            "journalctl",
+            "-u", service_name,
+            "-n", str(lines),
+            "--no-pager"
+        ])
+        return output.splitlines()
+    except Exception:
+        return []
+
+
+def parse_systemctl_show(output: str) -> dict:
+    data = {}
+    for line in output.splitlines():
+        if "=" in line:
+            k, v = line.split("=", 1)
+            data[k] = v
+    return data
+
+
+def get_service_info(service_name: str) -> ServiceInfo:
+    try:
+        cmd_output = run_cmd(["systemctl", "show", service_name])
+    
+    except Exception:
+        return {}
+    
+    data = parse_systemctl_show(cmd_output)
+
+    return ServiceFullInfo(
+        name=service_name,
+
+        memory=data.get("MemoryCurrent"),
+        cpu=data.get("CPUUsageNSec"),
+        main_pid=data.get("MainPID"),
+
+        active=data.get("ActiveState"),
+        loaded=data.get("LoadState"),
+
+        cgroup=data.get("ControlPID"),
+
+        last_logs=get_last_logs(service_name, lines=10)
+    )

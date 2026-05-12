@@ -1,8 +1,11 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+
 from app.system_metrics import get_cpu_usage, get_ram_usage, get_storage_usage
-from app.services_manager import get_services, start_service, stop_service, restart_service, enable_service, disable_service
+
+from app.services_manager import get_services, start_service, stop_service, restart_service, enable_service, disable_service, get_service_info
 from app.processes_manager import get_all_processes, kill_process, get_process_by_pid
+
 import app.schemes.services_info as services_schemes
 import app.schemes.system_info as system_schemes
 import app.schemes.process_info as process_schemes
@@ -15,6 +18,8 @@ app = FastAPI()
 
 # Load environment variables
 frontend_url = os.getenv("FRONTEND_URL", "http://localhost:8000")
+
+print(f"Allowing CORS for: {frontend_url}")
 
 # Allow CORS for frontend
 app.add_middleware(
@@ -43,6 +48,14 @@ def storage_usage() -> system_schemes.StorageInfo:
 @app.get("/services")
 def services() -> list[services_schemes.ServiceInfo]:
     return get_services()
+
+@app.get("/services/{name}")
+def service_info(name: str) -> services_schemes.ServiceFullInfo:
+    """Get detailed information about a specific service"""
+    try:
+        return get_service_info(name)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to get service info: {str(e)}")
 
 @app.post("/services/{name}/start")
 def start(name: str):

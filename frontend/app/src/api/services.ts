@@ -20,6 +20,26 @@ export interface ServiceResponse {
   message: string;
 }
 
+export interface ServiceFullInfo {
+  name: string;
+  
+  memory: string | number;
+  cpu: string | number;
+  main_pid: string | number;
+
+  active: string | boolean;
+  loaded: string | boolean;
+
+  cgroup: string;
+  last_logs: string[];
+  enabled: boolean;
+}
+
+// 
+export async function getServiceByName(serviceName: string): Promise<ServiceFullInfo> {
+  return request<ServiceFullInfo>(`/services/${serviceName}`);
+}
+
 /**
  * Get list of all services
  */

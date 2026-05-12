@@ -202,3 +202,9 @@ export function useKillProcess() {
   );
   return { kill, ...state };
 }
+
+export function useServiceInfo(serviceName: string) {
+  return useFetch(() => servicesApi.getServiceByName(serviceName), {
+    dependencies: [serviceName],
+  });
+}
